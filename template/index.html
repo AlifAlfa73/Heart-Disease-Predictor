@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Heart Disease Checker</title>
+    <link rel="stylesheet" href="{{url_for('static', filename='bulma.min.css')}}"/>
+    <link rel="stylesheet" href="{{url_for('static', filename='font.css')}}">
+    <!-- <link rel="stylesheet" href="{{url_for('static', filename='all.css')}}"> -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+</head>
+
+<body>
+    <section class="hero is-fullheight is-default is-bold">
+        <div class="hero-head">
+            <nav class="navbar">
+                <div class="container">
+                    <div class="navbar-brand">
+                        <a class="navbar-item" href="/">
+                            <b>U N E X P E C T E D</b>
+                        </a>
+                    </div>
+                </div>
+            </nav>
+        </div>
+        <div class="hero-body">
+            <div class="container has-text-centered">
+                <h1 class="title is-1">
+                    Welcome to <i>Heart Disease Detector!</i>
+                </h1>
+                <h2 class="subtitle is-5">
+                    If you want to know whether your heart is okay or not, we can 
+                    detect it for you! Dont't worry! Just click below and input some data,
+                    so we can predict if your heart is healthy or not!
+                </h2>
+                <br>
+                <p class="has-text-centered">
+                    <a class="button is-medium is-dark" href="{{url_for('checker')}}">
+                        Predict my Heart                        
+                    </a>
+                    <span style="margin-left:4px; margin-right:4px"></span>
+                    <a class="button is-medium is-dark">
+                        About Us
+                    </a>
+                    <span style="margin-left:4px; margin-right:4px"></span>
+                    <a class="button is-medium is-dark">
+                        Find your lover!
+                    </a>
+                </p>
+            </div>
+        </div>
+    </section>
+</body>
+
+</html>

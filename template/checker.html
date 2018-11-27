@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Heart Disease Checker</title>
+    <link rel="stylesheet" href="{{url_for('static', filename='bulma.min.css')}}"/>
+    <link rel="stylesheet" href="{{url_for('static', filename='font.css')}}">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.bundle.min.js"></script>
+</head>
+
+<body>
+    <div class="container">
+        <nav class="navbar">
+            <div class="navbar-brand">
+                <a class="navbar-item" href="/">
+                    <b>U N E X P E C T E D</b>
+                </a>
+            </div>
+        </nav>
+        <h1 class="title is-3">Heart Disease Analyzer</h1>
+        <div id="form-input">
+            <div class="box">
+                <form name="heart-form" id="heart-form" method="post">
+                    <div class="columns">
+                        <div class="column is-5">
+                            <div class="field">
+                                <label class="label">Your Name: </label>
+                                <div class="control has-icons-left">
+                                    <input class="input" id="name-input" name="name" type="text" placeholder="John Doe">
+                                    <span class="icon is-small is-left">
+                                        <i class="fas fa-user"></i>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="column is-2">
+                            <div class="field">
+                                <label class="label">Your Age: </label>
+                                <div class="control">
+                                    <input class="input" id="age-input" name="age" type="text" placeholder="40">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="column">
+                            <div class="field">
+                                <label class="label">Your Sex: </label>
+                                <div class="control">
+                                    <label class="radio">
+                                    <input type="radio" name="sex" value="1" checked>
+                                        Male
+                                    </label>
+                                    <label class="radio">
+                                        <input type="radio" name="sex" value="0">
+                                        Female
+                                    </label>
+                                    <label class="radio" disabled>
+                                        <input type="radio" name="sex" disabled>
+                                        ?
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="columns">
+                        <div class="column is-vcentered">
+                            <div class="field is-horizontal">
+                                <div class="field" style="display: flex; align-items: center; margin-right: 10px; margin-bottom: 0">
+                                    <label class="label">Chest Pain Type: </label>
+                                </div>
+                                <div class="field-body">
+                                    <div class="select">
+                                        <select name="chest_pain_type">
+                                            <option value="1">Typical Angina</option>
+                                            <option value="2">Atypical Angina</option>
+                                            <option value="3">Non-anginal Pain</option>
+                                            <option value="4">Asymptotic</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="columns">
+                        <div class="column is-6">
+                            <div class="field">
+                                <label class="label">Resting Blood Pressure: <span id="rbp">100</span> mmHg</label>
+                                <div class="control">
+                                    <input id="rbp-slider" class="slider" name="resting_blood_pressure" step="1" min="0" max="200" value="100" type="range">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="columns">
+                        <div class="column is-6">
+                            <div class="field">
+                                <label class="label">Serum Cholesterol: <span id="sc">200</span> mg/dl</label>
+                                <div class="control">
+                                    <input id="sc-slider" class="slider" name="serum_cholesterol" step="1" min="0" max="529" value="200" type="range">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="columns">
+                        <div class="column is-6">
+                            <div class="field">
+                                <label class="label">Fasting Blood Sugar > 120 mg/dl: </label>
+                                <div class="control">
+                                    <label class="radio">
+                                    <input type="radio" name="fasting_blood_sugar" value="1" checked>
+                                        Yes
+                                    </label>
+                                    <label class="radio">
+                                        <input type="radio" name="fasting_blood_sugar" value="0">
+                                        No
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="column">
+                            <div class="field">
+                                <label class="label">Exercise Induced Angina: </label>
+                                <div class="control">
+                                    <label class="radio">
+                                    <input type="radio" name="exercise_induced_angina" value="1" checked>
+                                        Yes
+                                    </label>
+                                    <label class="radio">
+                                        <input type="radio" name="exercise_induced_angina" value="0">
+                                        No
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="columns">
+                        <div class="column is-6 is-vcentered">
+                            <div class="field is-horizontal">
+                                <div class="field" style="display: flex; align-items: center; margin-right: 10px; margin-bottom: 0">
+                                    <label class="label">Resting ECG: </label>
+                                </div>
+                                <div class="field-body">
+                                    <div class="select">
+                                        <select name="resting_ecg">
+                                            <option value="0">Normal</option>
+                                            <option value="1">Having ST-T Wave Abnormality</option>
+                                            <option value="2">Left Ventricular Hyperthrophy</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="column is-6 is-vcentered">
+                            <div class="field is-horizontal">
+                                <div class="field" style="display: flex; align-items: center; margin-right: 10px; margin-bottom: 0">
+                                    <label class="label">Peak Exercise ST Segment: </label>
+                                </div>
+                                <div class="field-body">
+                                    <div class="select">
+                                        <select name="peak_exercise_st_segment">
+                                            <option value="1">Upsloping</option>
+                                            <option value="2">Flat</option>
+                                            <option value="3">Downsloping</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="columns">
+                        <div class="column is-6">
+                            <div class="field">
+                                <label class="label">Max-Heart Rate Achieved: <span id="mhra">100</span></label>
+                                <div class="control">
+                                    <input id="mhra-slider" class="slider" name="max_heart_rate_achieved" step="1" min="60" max="202" value="100" type="range">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="columns">
+                        <div class="column is-6">
+                            <div class="field">
+                                <label class="label">ST depression Induced by Exercise Relative to Rest: <span id="std">3</span></label>
+                                <div class="control">
+                                    <input id="std-slider" class="slider" name="st_depression" step="1" min="-3" max="62" value="3" type="range">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="columns">
+                        <div class="column is-6">
+                            <div class="field">
+                                <label class="label">Number of Major Vessels (0-3) Colored by Flourosopy: <span id="f">0</span></label>
+                                <div class="control">
+                                    <input id="f-slider" class="slider" name="num_major_flourosopy" step="1" min="0" max="3" value="0" type="range">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="columns">
+                        <div class="column is-vcentered">
+                            <div class="field is-horizontal">
+                                <div class="field" style="display: flex; align-items: center; margin-right: 10px; margin-bottom: 0">
+                                    <label class="label">Thal: </label>
+                                </div>
+                                <div class="field-body">
+                                    <div class="select">
+                                        <select name="thal">
+                                            <option value="3">Normal</option>
+                                            <option value="6">Fixed Defect</option>
+                                            <option value="7">Reversable Effect</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="columns is-centered">
+                <div class="column has-text-centered">
+                    <input style="width:25%; min-width: 100px" class="button is-link" type="submit" form="heart-form" value="Submit">
+                </div>
+            </div>
+        </div>
+        <div id="loader" style="display:none">
+            <div class="columns is-centered" style="display:flex !important">
+                <div class="loader" id="loader" style="margin-top: 50px"></div>
+            </div>
+            <div class="columns is-centered" style="margin-top:10px">
+                <div class="column has-text-centered">
+                    <div class="subtitle">Analyzing the data ...</div>
+                </div>
+            </div>
+        </div>
+        
+        <div id="form-output" class="box" style="display: none;">
+            <div class="columns is-centered">
+                <div class="column has-text-centered">
+                    <div id="title-result" class="title">Hello #{name}!</div>
+                </div>
+            </div>
+            <div class="columns">
+                <div class="column has-text-centered">
+                    <div class="subtitle is-6">We have predicted your disease from your input and the result is: </div>
+                </div>
+            </div>
+            <div class="columns">
+                <div class="column has-text-centered">
+                    <h1 class="title is-1" id="disease-result">0</h1>
+                    <div id="info-result">It means you're healthy!</div>
+                </div>
+            </div>
+            <div id="result-chart" class="columns is-centered" style="display:flex !important">
+                <canvas id="pie-chart" width="500" height="500"></canvas>
+            </div>
+            <br>
+            <div class="columns is-centered" style="display:flex !important">
+                <div class="button" id="back">Go Back to Form</div>
+            </div>
+        </div>
+    </div>
+</body>
+<script src="{{url_for('static', filename='checker.js')}}"></script>
+<style>
+    #form-input, #form-output {
+        opacity: 1;
+        transition: opacity 1s; 
+    }
+
+    #form-input.fade, #form-output.fade {
+        opacity: 0;
+    }
+    
+    .container {
+        padding: 20px;
+    }
+    a:hover{
+        color: black !important;
+    }
+    .slidecontainer {
+        width: 100%;
+    }
+    .slider {
+        -webkit-appearance: none;
+        width: 100%;
+        height: 15px;
+        border-radius: 10px;
+        background: #d3d3d3;
+        outline: none;
+        opacity: 0.7;
+        -webkit-transition: .2s;
+        transition: opacity .2s;
+    }
+
+    .slider:hover {
+        opacity: 1;
+    }
+
+    .slider::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        appearance: none;
+        width: 25px;
+        height: 25px;
+        border-radius: 50%; 
+        background: blue;
+        cursor: pointer;
+    }
+
+    .slider::-moz-range-thumb {
+        width: 25px;
+        height: 25px;
+        background:blue;
+        cursor: pointer;
+    }
+
+    .loader {
+        border: 16px solid #f3f3f3; /* Light grey */
+        border-top: 16px solid #3498db; /* Blue */
+        border-radius: 50%;
+        width: 120px;
+        height: 120px;
+        animation: spin 2s linear infinite;
+    }
+
+    @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+    }
+</style>
+</html>
